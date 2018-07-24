@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"> 	<!--font-awesome.min.css는 상위에 있어야함......-->
+    <link rel="stylesheet" type="text/css" href="css/user-portal.css">
+    <link rel="stylesheet" type="text/css" href="css/carousel_flow.css">
+    <link rel="stylesheet" type="text/css" href="css/accordion.css">
+    <link rel="stylesheet" type="text/css" href="css/dialog-popup.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script>
+        function showAndroidToast(toast){
+            Android.printLog();
+
+            Android.showToast(toast);
+
+        }
+    </script>
+</head>
+<body>
+<form class="form-signin" name="loginForm" id="loginForm" method="post">
+    <input type="hidden" id="ipAdress" name="ipAdress" value="210.92.57.56" />
+    <input type="hidden" id="userID" name="userID" value="">
+    <input type="hidden" id="userPw" name="userPw" value="">
+    <p>
+    <ul class="accountDetail">
+        <li><span class="boldT">로그인</span></li>
+        <li><input type="text" name="userIDVal" id="userIDVal" placeholder="아이디" onkeyup="checkSaveId(this)"></li>
+        <li><input type="password" name="userPwVal" id="userPwVal" placeholder="비밀번호" onkeypress="if( event.keyCode==13 ){lgn.login()}"></li>
+
+        <li><input type="checkbox" id="cb1" name="cb1" onclick="javascript:saveId(this);" value="choice">
+            <label for="cb1"></label>ID저장</li>
+        <li>
+            <h1 class="lockImg"></h1>
+            <button type="button" class="loginPageButton" onclick="showAndroidToast('hi')">로그인</button>
+            <button type="button" class="loginPageButton" onclick="showAndroidToast('hi, it's me!')">login</button>
+        </li>
+        <li>
+            <ul class="fiding">
+                <li style="float:left; line-height:38px"><a href="javascript:lgn.searchId()">아이디 찾기</a></li>
+                <li class="password-click"><a  href="javascript:lgn.searchPw()">비밀번호 찾기</a></li>
+            </ul>
+        </li>
+    </ul>
+</form>
+    asdfasdf
+    <button onclick="showAndroidToast('hi, it's me!')">"로그인"</button>
+    <button onclick="showAndroidToast('asdf')">haha</button>
+    <button onclick="showAndroidToast('??')">??</button>
+    <button onclick="showAndroidToast('왜안됨')">login</button>
+</body>
+</html>

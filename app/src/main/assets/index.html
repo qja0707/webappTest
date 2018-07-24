@@ -1,0 +1,237 @@
+<!doctype html>
+
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SKB Cloud PC User Portal</title>
+
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"> 	<!--font-awesome.min.css는 상위에 있어야함......-->
+    <link rel="stylesheet" type="text/css" href="css/user-portal.css">
+    <link rel="stylesheet" type="text/css" href="css/carousel_flow.css">
+    <link rel="stylesheet" type="text/css" href="css/accordion.css">
+    <link rel="stylesheet" type="text/css" href="css/dialog-popup.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+    <!--JS-->
+    <script type="text/javascript" src="js/skbBusinessLogic.js"></script>
+    <script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="js/dialog-popup.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/loading.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js" ></script>
+    <script type="text/javascript" src="js/loadingoverlay.min.js"></script>
+    <script type="text/javascript" src="js/loadingoverlay_progress.min.js"></script>
+
+    <script type="text/javascript" src="js/skbBusinessLogic/common.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/constant.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/fileInOut.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/home.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/login.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/main.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/notice.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/qa.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/recovery.js"></script>
+    <script type="text/javascript" src="js/skbBusinessLogic/user.js"></script>
+
+    <script type="text/javascript" src="js/rsa/jsbn.js"></script>
+    <script type="text/javascript" src="js/rsa/rsa.js"></script>
+    <script type="text/javascript" src="js/rsa/prng4.js"></script>
+    <script type="text/javascript" src="js/rsa/rng.js"></script>
+
+    <script language="javascript">
+
+	if(constant.config.consoleLogShow==false){
+		console = {log: function(){}, debug: function(){}, info: function(){}, warn: function(){}, error: function(){} };
+	}
+	else{
+		if(!(window.console && console.log)){
+			console = {log: function(){}, debug: function(){}, info: function(){}, warn: function(){}, error: function(){} };
+		}
+	}
+
+	common.setLoadingImage();
+	function init(){
+		if(false ==true){
+			lgn.searchId();
+		}
+
+		if(false ==true){
+			lgn.searchPw();
+		}
+
+		var userId = document.getElementById("userIDVal");
+		if(userId != null && typeof userId != "undefined"){
+			var chkuserId = document.getElementById("cb1");
+
+			// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+		    var userInputId = getCookie("userInputId");
+		    userId.value = userInputId;
+
+		    if(userId.value != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+		    	// 비밀번호 포커스
+			    document.getElementById("userPwVal").focus();
+		        chkuserId.checked = true;
+		    }else{
+		    	// 사용자 ID 포커스
+			    document.getElementById("userIDVal").focus();
+		    }
+		}
+	}
+
+	// 쿠키 ID 체크
+	function checkSaveId(obj){
+		var chkuserId = document.getElementById("cb1");
+		if(chkuserId.checked){ // ID 저장하기를 체크한 상태라면,
+            setCookie("userInputId", obj.value, 30); // 30일 동안 쿠키 보관
+        }
+	}
+
+	function saveId(obj){
+		var userId = document.getElementById("userIDVal");
+		if(obj.checked){
+			setCookie("userInputId", userId.value, 30); // 30일 동안 쿠키 보관
+		}else{ // ID 저장하기 체크 해제 시,
+            deleteCookie("userInputId");
+        }
+	}
+
+	function setCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+
+	function deleteCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+
+	function getCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue);
+	}
+
+	//gyubeom
+	function test(toast){
+	    Android.printLog();
+        Android.showToast(toast);
+    }
+	//
+
+//	var onloadCallback = function() {
+//        grecaptcha.render('html_element', {
+//          'sitekey' : '6LeEOysUAAAAAOKKtWFdX6uLyFmPVTVgDpYcSNdk'
+//        });
+//     };
+</script>
+</head>
+<body onload="init()">
+
+<div id="login_page"></div>
+
+<div id="idDialogForm"></div>
+<div class="accountContainer ">
+    <div class="logoContainer">
+        <ul>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <table id="log-in" class="writeContents log-in" style="display: block;">
+        <tr>
+            <td></td>
+            <td>
+                <!--
+                       <div id="html_element"></div>
+                        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                            async defer>
+                        </script>
+                -->
+                <form class="form-signin" name="loginForm" id="loginForm" method="post">
+                    <input type="hidden" id="ipAdress" name="ipAdress" value="210.92.57.56" />
+                    <input type="hidden" id="userID" name="userID" value="">
+                    <input type="hidden" id="userPw" name="userPw" value="">
+                    <p>
+                    <ul class="accountDetail">
+                        <li><span class="boldT">로그인</span></li>
+                        <li><input type="text" name="userIDVal" id="userIDVal" placeholder="아이디" onkeyup="checkSaveId(this)"></li>
+                        <li><input type="password" name="userPwVal" id="userPwVal" placeholder="비밀번호" onkeypress="if( event.keyCode==13 ){lgn.login()}"></li>
+
+                        <li><input type="checkbox" id="cb1" name="cb1" onClick="javascript:saveId(this);" value="choice">
+                            <label for="cb1"></label>ID저장</li>
+                        <li>
+                            <h1 class="lockImg"></h1>
+                            <button type="button" class="loginPageButton" onClick="javascript:lgn.login()">로그인</button>
+                        </li>
+                        <li>
+                            <ul class="fiding">
+                                <li style="float:left; line-height:38px"><a href="javascript:lgn.searchId()">아이디 찾기</a></li>
+                                <li class="password-click"><a  href="javascript:lgn.searchPw()">비밀번호 찾기</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <table id="SMS-box" class="writeContents SMS-box" style="display: none;">
+        <tr>
+            <td></td>
+            <td>
+                <form class="form-signin" name="smsForm" id="smsForm" method="post">
+                    <ul class="accountDetail">
+                        <li><span class="boldT">SMS 인증</span></li>
+                        <li>
+                            <input type="text" id="phoneNum" name="phoneNum" maxlength="13" style="width: 220px;"  placeholder="핸드폰 번호를 입력하세요." onkeyup="return lgn.showKeyCode(phoneNum)">
+                            <input type="button" onClick="lgn.smsSubmit();" value="인증번호발송">
+                        </li>
+                        <li><input type="text" name="certificatedNumber"  name="certificatedNumber" id="certificatedNumber" placeholder="인증 번호를 입력하세요" value=""></li>
+                        <li><a href="/">뒤로가기</a></li>
+                        <li>인증유효시간 : <span style="color: #e9002d; font-weight:bold;" id='resu'></span></li>
+                        <li class="time-exceed" id='msgtextu'></li>
+                        <li><button class="confirmPageButton"  type="button" onClick="javascript:lgn.outLogResult()">확 인</button></li>
+                        <li></li>
+                    </ul>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <div class="whiteBox1"></div>
+    <div class="whiteBox2"></div>
+
+    <div class="noticeBox">
+        <table>
+            <tr>
+                <td><span>공지사항</span></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center">조회된 데이터가 없습니다.</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!--**loginContainer-->
+
+<!--**footer-->
+<footer class="accountFooter">
+    <p><img src="images/copyright.png"></p>
+</footer>
+<!--**footer-->
+</body>
+</html>
